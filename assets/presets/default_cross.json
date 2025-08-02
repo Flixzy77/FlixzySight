@@ -1,0 +1,11 @@
+{
+    "color": "#00ff00",
+    "outline_enabled": true,
+    "outline_thickness": 1.0,
+    "center_dot_enabled": false,
+    "center_dot_size": 2.0,
+    "inner_lines_enabled": true,
+    "inner_lines_length": 6.0,
+    "inner_lines_thickness": 2.0,
+    "inner_lines_offset": 3.0
+}
