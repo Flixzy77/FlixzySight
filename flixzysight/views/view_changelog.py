@@ -1,6 +1,13 @@
 import customtkinter as ctk
 
 CHANGELOG_TEXT = """
+v1.2.2 - Light Theme Text Fix (August 2, 2025)
+- Fixed a bug where sidebar button text was not visible in the light theme.
+
+v1.2.1 - Theme Fix (August 2, 2025)
+- Fixed a bug where the sidebar and title text did not update correctly when switching to the light theme.
+- Improved hover colors for sidebar buttons in both themes.
+
 v1.2 - The Polish & Settings Update (August 2, 2025)
 - Implemented the 'Settings' tab with theme and hotkey customization.
 - Complete UI overhaul for a more modern and consistent look.
