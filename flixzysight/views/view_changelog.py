@@ -1,6 +1,13 @@
 import customtkinter as ctk
 
 CHANGELOG_TEXT = """
+v2.1.0 - Code & Stability Update (August 2, 2025)
+- Fixed the crosshair profile Import/Export feature.
+- Added `pyperclip` dependency for clipboard operations.
+- Improved error handling for the import/export process.
+- Removed the experimental Pixel Art editor due to instability.
+
+
 v2.0.0 - The Phoenix Update (August 2, 2025)
 
 ### Major Features & UI Overhaul
