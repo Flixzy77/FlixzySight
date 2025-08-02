@@ -2,7 +2,9 @@ import customtkinter as ctk
 
 class Sidebar(ctk.CTkFrame):
     def __init__(self, parent, view_switcher):
-        super().__init__(parent, corner_radius=0, fg_color="#212121")
+        # Zmieniamy stały kolor na dynamiczny, zależny od motywu
+        # Format: (kolor_dla_light_mode, kolor_dla_dark_mode)
+        super().__init__(parent, corner_radius=0, fg_color=("#E5E5E5", "#212121"))
         self.grid_rowconfigure(7, weight=1)
 
         self.logo_label = ctk.CTkLabel(self, text="FlixzySight", font=ctk.CTkFont(size=20, weight="bold"))
@@ -26,7 +28,8 @@ class Sidebar(ctk.CTkFrame):
                 anchor="w",
                 corner_radius=8,
                 fg_color="transparent",
-                hover_color="#2b2b2b",
+                # Kolor po najechaniu również musi być dynamiczny
+                hover_color=("#D5D5D5", "#2b2b2b"),
                 text_color_disabled="gray"
             )
             button.grid(row=i + 1, column=0, padx=10, pady=5, sticky="ew")
