@@ -1,60 +1,112 @@
-# 🎯 FlixzySight – Crosshair Overlay & Aim Trainer
+# FlixzySight: Advanced Crosshair Overlay
 
-FlixzySight is a modern desktop application for gamers that allows you to create, modify, and overlay crosshairs in your games, as well as train your aim. The application combines the convenience of a graphical editor, practical presets, and a training system for FPS players.
+### A modern desktop application for Windows, designed for gamers who need a customizable, persistent crosshair overlay and tools for aim improvement.
 
-## ✅ Key Features:
+<p align="center">
+<img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="Python Version">
+<img src="https://img.shields.io/badge/license-CC--BY--NC--SA--4.0-lightgrey.svg" alt="License">
+<img src="https://img.shields.io/badge/status-in--development-orange.svg" alt="Project Status">
+</p>
 
-### 🔹 1. Crosshair Overlay
-- The crosshair is displayed in the center of the screen as a transparent overlay (always on top).
-- Ability to toggle on/off with a hotkey (e.g., F8).
-- Works independently of the game (compatible with most windowed and borderless fullscreen games).
+# Table of Contents
 
-### 🎨 2. Advanced Crosshair Editor
-- Pixel editing mode (grid) - brush, eraser, lines.
-- Import crosshair from PNG / export to PNG.
-- Color, thickness, and transparency selection.
-- Live preview of the crosshair on the overlay.
-- Undo/redo, helper grid, zoom functionality.
+### Key Features
 
-### 📁 3. Presets
-- Built-in ready-to-use presets (FPS, Retro, Circle, Dot, Cross, Green Dot, Valorant style, CS2).
-- Ability to save your own custom presets.
-- Export/import presets (.crossx.json or .png).
+### Technology Stack
 
-### 🧠 4. Aim Trainer
-- Built-in training modes: Reaction, Speed, Precision.
-- Statistics: average reaction time, accuracy %, hits per minute.
-- Display modes: Light/Dark mode.
+### Getting Started
 
-### ⚙️ 5. Settings
-- Configure the hotkey to toggle the overlay.
-- Option to automatically start with the system.
-- GUI theme selection (Dark / Light).
+#### Prerequisites
 
-### 🕘 6. Changelog
-- A dedicated tab in the GUI with the application's version history.
+ #### Installation
 
-### 🧩 7. Modern GUI
-- Sidebar for easy navigation.
-- Modern style (dark mode, rounded corners, shadows).
-- Intuitive section switching without reloading.
+### Usage
 
-## 🚀 How to Run
+### Future Development
 
-1.  **Clone or download the repository.**
-2.  **Create and activate a virtual environment:**
-    ```bash
-    python -m venv venv
-    # On Windows:
-    .\venv\Scripts\activate
-    # On macOS/Linux:
-    source venv/bin/activate
-    ```
-3.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-4.  **Run the application:**
-    ```bash
+### License
+
+# Key Features
+
+## Advanced Parametric Editor
+
+### Move beyond static images. Fine-tune your crosshair by adjusting properties like line length, thickness, offset, and color in real-time.
+
+  ### Toggle outlines, a center dot, and inner/outer lines independently.
+
+## Live Overlay Preview
+
+ ### All adjustments made in the editor are instantly rendered on a system-wide, always-on-top crosshair overlay.
+
+  ### Get immediate visual feedback without tabbing out of your game.
+
+   ## Persistent & Independent Crosshair
+
+  ### The overlay works independently of the game client, providing a consistent aiming point across any game that runs in windowed or borderless fullscreen mode.
+
+ ### Toggle the overlay visibility at any time with a global hotkey (F8).
+
+# JSON-Based Preset System
+
+### Save your complex crosshair configurations as simple .json files.
+
+ ### Load, modify, and share your favorite presets with ease.
+
+   # Modern & Intuitive UI
+
+### Built with a clean, modern interface (customtkinter) that is easy to navigate.
+
+### Features distinct sections for editing, preset management, and settings.
+
+# Technology Stack
+
+## Core Language: Python 3
+## GUI Framework: customtkinter
+
+# Getting Started
+
+ Follow these instructions to get a local copy up and running.
+
+## Prerequisites
+
+    Python 3.8+
+
+    Git command-line tools
+
+## Installation
+
+    Clone the repository to your local machine
+
+
+        Install the required dependencies from requirements.txt:
+
+        pip install -r requirements.txt
+
+## Run the application:
+
+
     python run.py
-    ```
+
+## Usage
+
+    Editing: Navigate to the Editor tab. Use the sliders and switches to modify the crosshair parameters. Changes will be reflected live on the screen overlay.
+
+    Presets: Go to the Presets tab to load existing configurations or to save your current design as a new preset.
+
+    Toggling: Press F8 at any time to show or hide the crosshair overlay.
+
+# Future Development
+
+### The following features are planned for future releases:
+
+### [ ] Aim Trainer Module: Implementation of various training modes (Reaction, Speed, Precision).
+
+###[ ] Advanced Settings: A dedicated UI for remapping the global hotkey and managing application startup behavior.
+
+### [ ] Profile System: Ability to save multiple settings and presets under different user profiles.
+
+# License
+
+# This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+# See the LICENSE file for more details.
