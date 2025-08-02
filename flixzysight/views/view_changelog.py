@@ -1,23 +1,25 @@
 import customtkinter as ctk
 
 CHANGELOG_TEXT = """
-v1.1.1 - Trainer Update & Bug Fix (August 2, 2025)
-- Fixed a bug where any click registered as a hit in Reaction mode.
-- Added new "Speed" training mode: hit as many targets as you can in 30 seconds.
+v1.1.2 - Trainer Bug Fix (August 2, 2025)
+- Fixed a critical bug where target clicks were not registering correctly.
+- Restored the intuitive "click to start" flow.
+- Improved gameplay fluidity by reducing delay after a successful hit.
+
+v1.1.1 - Trainer Update & Initial Fix (August 2, 2025)
+- Added new "Speed" training mode.
 - Added mode selection to the Trainer UI.
-- Improved stat tracking for different modes.
+- Attempted to fix the hit registration bug.
 
 v1.1 - The Aim Trainer Update (August 2, 2025)
 - Added the first version of the Aim Trainer module.
-- Implemented "Reaction" mode: click the target as fast as you can.
+- Implemented "Reaction" mode.
 - Added average reaction time tracking.
-- Minor UI adjustments.
 
 v1.0 - Early Access (August 2, 2025)
 - Parametric editor with live preview implemented.
 - JSON-based preset system for saving and loading.
 - Global hotkey (F8) to toggle the overlay.
-- Reworked core drawing logic.
 
 v0.5 - Beta (July 15, 2025)
 - Initial pixel-based editor created.
