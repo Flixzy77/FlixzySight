@@ -1,35 +1,57 @@
 import customtkinter as ctk
 
+# --- Definicja kolorów ---
+ACCENT_COLOR = "#9370DB"
+BG_COLOR = "#1B1B1B"
+FRAME_COLOR = "#242424"
+
 class Sidebar(ctk.CTkFrame):
     def __init__(self, parent, view_switcher):
-        super().__init__(parent, corner_radius=0, fg_color=("#E5E5E5", "#212121"))
-        self.grid_rowconfigure(7, weight=1)
+        super().__init__(parent, corner_radius=0, fg_color=FRAME_COLOR)
+        self.grid_rowconfigure(6, weight=1)
+        self.view_switcher = view_switcher
+        self.buttons = {}
 
         self.logo_label = ctk.CTkLabel(self, text="FlixzySight", font=ctk.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 20))
 
         buttons_info = [
             ("editor", "🎨 Editor"),
-            ("presets", "📁 Presets"),
             ("trainer", "🧠 Aim Trainer"),
             ("overlay", "🎯 Overlay"),
             ("settings", "⚙️ Settings"),
-            ("changelog", "🕘 Changelog")
         ]
-
-        self.buttons = {}
+        
+        # Tworzenie głównych przycisków
         for i, (name, text) in enumerate(buttons_info):
             button = ctk.CTkButton(
-                self,
-                text=text,
-                command=lambda n=name: view_switcher(n),
-                anchor="w",
-                corner_radius=8,
-                fg_color="transparent",
-                hover_color=("#D5D5D5", "#2b2b2b"),
-                # --- DODANA LINIA DO ZMIANY KOLORU TEKSTU ---
-                text_color=("#1A1A1A", "#DCE4EE"), 
-                text_color_disabled="gray"
+                self, text=text, command=lambda n=name: self.button_click(n),
+                anchor="w", corner_radius=8, fg_color="transparent",
+                hover_color=BG_COLOR, text_color=("#1A1A1A", "#DCE4EE")
             )
             button.grid(row=i + 1, column=0, padx=10, pady=5, sticky="ew")
             self.buttons[name] = button
+
+        # Przycisk Changelog na dole
+        changelog_button = ctk.CTkButton(
+            self, text="🕘 Changelog", command=lambda: self.button_click("changelog"),
+            anchor="w", corner_radius=8, fg_color="transparent",
+            hover_color=BG_COLOR, text_color=("gray50", "gray50")
+        )
+        changelog_button.grid(row=7, column=0, padx=10, pady=10, sticky="s")
+        self.buttons["changelog"] = changelog_button
+
+    def button_click(self, view_name):
+        """Wywołuje zmianę widoku i podświetlenie przycisku."""
+        self.view_switcher(view_name)
+        self.highlight_button(view_name)
+
+    def highlight_button(self, active_button_name):
+        """Podświetla aktywny przycisk i resetuje pozostałe."""
+        for name, button in self.buttons.items():
+            if name == active_button_name:
+                # Ustaw fioletowe tło dla aktywnego przycisku
+                button.configure(fg_color=ACCENT_COLOR)
+            else:
+                # Ustaw przezroczyste tło dla nieaktywnych
+                button.configure(fg_color="transparent")

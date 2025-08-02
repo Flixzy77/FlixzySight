@@ -1,106 +1,102 @@
 import customtkinter as ctk
-from PIL import Image, ImageDraw, ImageTk
+from PIL import Image, ImageDraw
 
 class CrosshairOverlay(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self.overrideredirect(True)
         self.wm_attributes("-topmost", True)
         self.transparent_color = '#000001'
         self.wm_attributes("-transparentcolor", self.transparent_color)
-        
-        self.configure(bg=self.transparent_color)
-
+        self.configure(fg_color=self.transparent_color)
         self.is_visible = False
-        self.crosshair_photo = None
-        
-        self.label = ctk.CTkLabel(self, text="", bg_color=self.transparent_color)
+        self.crosshair_ctk_image = None
+        self.label = ctk.CTkLabel(self, text="", fg_color=self.transparent_color)
         self.label.pack(fill="both", expand=True)
-        
         self.withdraw()
 
-    def update_image(self, pil_image):
-        """Updates the overlay window with a new PIL image."""
-        try:
-            self.crosshair_photo = ImageTk.PhotoImage(pil_image)
-            self.label.configure(image=self.crosshair_photo)
-            self.geometry(f"{pil_image.width}x{pil_image.height}")
-            if self.is_visible:
-                self.center_window()
-        except Exception as e:
-            print(f"Error updating overlay image: {e}")
+    def update_image(self, ctk_image):
+        self.crosshair_ctk_image = ctk_image
+        self.label.configure(image=self.crosshair_ctk_image)
+        self.geometry(f"{ctk_image.cget('size')[0]}x{ctk_image.cget('size')[1]}")
+        if self.is_visible:
+            self.center_window()
 
-    def draw_crosshair_from_params(self, params):
-        """Draws the crosshair based on a dictionary of parameters."""
-        size = 100
-        center = size // 2
-        
-        image = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-        draw = ImageDraw.Draw(image)
-
-        color = params.get("color", "#00FF00")
-        
-        if params.get("outline_enabled", False):
-            outline_thickness = int(params.get("outline_thickness", 1))
-            outline_color = "#000000"
-            
-            if params.get("center_dot_enabled", False):
-                dot_size = int(params.get("center_dot_size", 2))
-                s = dot_size + outline_thickness
-                draw.rectangle([center-s, center-s, center+s, center+s], fill=outline_color)
-            
-            if params.get("inner_lines_enabled", True):
-                l = int(params.get("inner_lines_length", 6))
-                t = int(params.get("inner_lines_thickness", 2))
-                o = int(params.get("inner_lines_offset", 2))
-                ot = t + outline_thickness * 2
-                
-                draw.rectangle([center-ot//2, center-o-l, center+ot//2, center-o], fill=outline_color)
-                draw.rectangle([center-ot//2, center+o, center+ot//2, center+o+l], fill=outline_color)
-                draw.rectangle([center-o-l, center-ot//2, center-o, center+ot//2], fill=outline_color)
-                draw.rectangle([center+o, center-ot//2, center+o+l, center+ot//2], fill=outline_color)
+    def _draw_single_crosshair(self, draw_context, params, color, offset=(0, 0)):
+        center_x = (params["size"] / 2) + offset[0]
+        center_y = (params["size"] / 2) + offset[1]
 
         if params.get("center_dot_enabled", False):
-            dot_size = int(params.get("center_dot_size", 2))
-            draw.rectangle([center-dot_size, center-dot_size, center+dot_size, center+dot_size], fill=color)
+            s = params.get("center_dot_size", 2.0)
+            if s > 0:
+                draw_context.rectangle([center_x - s, center_y - s, center_x + s, center_y + s], fill=color)
         
         if params.get("inner_lines_enabled", True):
-            l = int(params.get("inner_lines_length", 6))
-            t = int(params.get("inner_lines_thickness", 2))
-            o = int(params.get("inner_lines_offset", 2))
+            l = params.get("inner_lines_length", 6.0)
+            t = params.get("inner_lines_thickness", 2.0)
+            o = params.get("inner_lines_offset", 2.0)
+            ht = t / 2.0
             
-            draw.rectangle([center-t//2, center-o-l, center+t//2, center-o], fill=color)
-            draw.rectangle([center-t//2, center+o, center+t//2, center+o+l], fill=color)
-            draw.rectangle([center-o-l, center-t//2, center-o, center+t//2], fill=color)
-            draw.rectangle([center+o, center-t//2, center+o+l, center+t//2], fill=color)
+            draw_context.rectangle([center_x - ht, center_y - o - l, center_x + ht, center_y - o], fill=color)
+            draw_context.rectangle([center_x - ht, center_y + o, center_x + ht, center_y + o + l], fill=color)
+            draw_context.rectangle([center_x - o - l, center_y - ht, center_x - o, center_y + ht], fill=color)
+            draw_context.rectangle([center_x + o, center_y - ht, center_x + o + l, center_y + ht], fill=color)
 
-        self.update_image(image)
+    def draw_crosshair_from_params(self, params):
+        final_size = 100
+        scale = 4
+        scaled_size = final_size * scale
+        
+        scaled_params = params.copy()
+        scaled_params["size"] = scaled_size
+        for key in ["center_dot_size", "inner_lines_length", "inner_lines_thickness", "inner_lines_offset"]:
+            if key in scaled_params:
+                scaled_params[key] *= scale
 
+        image = Image.new("RGBA", (scaled_size, scaled_size), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        
+        main_color = params.get("color", "#9370DB")
+        
+        if params.get("outline_enabled", False) and params.get("outline_thickness", 0) > 0:
+            outline_color = "#000000"
+            thickness = params.get("outline_thickness", 1.0) * scale
+            loop_range = range(-round(thickness), round(thickness) + 1)
+
+            for x_offset in loop_range:
+                for y_offset in loop_range:
+                    if x_offset == 0 and y_offset == 0: continue
+                    self._draw_single_crosshair(draw, scaled_params, outline_color, offset=(x_offset, y_offset))
+
+        self._draw_single_crosshair(draw, scaled_params, main_color)
+        
+        # *** TUTAJ KLUCZOWA ZMIANA: ZAWSZE UŻYWAMY FILTRA "NEAREST" ***
+        # Ten filtr gwarantuje ostre, pikselowe krawędzie bez żadnego wygładzania.
+        resized_image = image.resize((final_size, final_size), Image.Resampling.NEAREST)
+        
+        background = Image.new("RGB", resized_image.size, self.transparent_color)
+        background.paste(resized_image, (0, 0), resized_image)
+        
+        return ctk.CTkImage(light_image=background, dark_image=background, size=(final_size, final_size))
 
     def center_window(self):
         self.update_idletasks()
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-        width = self.winfo_width()
-        height = self.winfo_height()
-        x = (screen_width // 2) - (width // 2)
-        y = (screen_height // 2) - (height // 2)
+        screen_width, screen_height = self.winfo_screenwidth(), self.winfo_screenheight()
+        width, height = self.winfo_width(), self.winfo_height()
+        x, y = (screen_width // 2) - (width // 2), (screen_height // 2) - (height // 2)
         self.geometry(f"+{x}+{y}")
 
     def show_overlay(self):
         self.is_visible = True
-        self.center_window()
         self.deiconify()
         self.lift()
         self.wm_attributes("-topmost", True)
+        self.center_window()
 
     def hide_overlay(self):
         self.is_visible = False
         self.withdraw()
 
     def toggle_visibility(self):
-        if self.is_visible:
-            self.hide_overlay()
-        else:
-            self.show_overlay()
+        if self.is_visible: self.hide_overlay()
+        else: self.show_overlay()

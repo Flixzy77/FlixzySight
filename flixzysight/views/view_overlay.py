@@ -1,5 +1,8 @@
 import customtkinter as ctk
 
+# Definicja koloru, aby łatwo go używać
+ACCENT_COLOR = "#9370DB"
+
 class OverlayView(ctk.CTkFrame):
     def __init__(self, parent, overlay_window):
         super().__init__(parent, fg_color="transparent")
@@ -9,6 +12,7 @@ class OverlayView(ctk.CTkFrame):
         self.label = ctk.CTkLabel(self, text="Overlay Settings", font=ctk.CTkFont(size=24, weight="bold"))
         self.label.pack(pady=20, padx=20)
 
+        # *** POPRAWKA KOLORU PRZEŁĄCZNIKA ***
         self.switch_var = ctk.StringVar(value="off")
         self.switch = ctk.CTkSwitch(
             self, 
@@ -16,7 +20,8 @@ class OverlayView(ctk.CTkFrame):
             variable=self.switch_var, 
             onvalue="on", 
             offvalue="off",
-            command=self.toggle_switch
+            command=self.toggle_switch,
+            progress_color=ACCENT_COLOR
         )
         self.switch.pack(pady=10, padx=20)
 

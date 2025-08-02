@@ -2,6 +2,9 @@ import customtkinter as ctk
 import random
 import time
 
+# Definicja koloru, aby łatwo go używać
+ACCENT_COLOR = "#9370DB"
+
 class TrainerView(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, fg_color="transparent")
@@ -28,11 +31,19 @@ class TrainerView(ctk.CTkFrame):
         ctk.CTkLabel(self.controls_frame, text="Aim Trainer", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=20, padx=20)
 
         ctk.CTkLabel(self.controls_frame, text="Game Mode").pack(pady=(10, 5), padx=20)
-        self.mode_selector = ctk.CTkSegmentedButton(self.controls_frame, values=["Reaction", "Speed"], command=self.select_mode)
+        
+        # *** POPRAWKA KOLORU PRZYCISKU SEGMENTOWEGO ***
+        self.mode_selector = ctk.CTkSegmentedButton(
+            self.controls_frame,
+            values=["Reaction", "Speed"],
+            command=self.select_mode,
+            selected_color=ACCENT_COLOR,
+            selected_hover_color="#7A2CB0" # Ciemniejszy fiolet
+        )
         self.mode_selector.set("Reaction")
         self.mode_selector.pack(pady=5, padx=20, fill="x")
 
-        self.start_button = ctk.CTkButton(self.controls_frame, text="Start Training", command=self.start_game)
+        self.start_button = ctk.CTkButton(self.controls_frame, text="Start Training", command=self.start_game, fg_color=ACCENT_COLOR)
         self.start_button.pack(pady=20, padx=20, fill="x")
 
         self.stop_button = ctk.CTkButton(self.controls_frame, text="Stop Training", command=self.stop_game, state="disabled")
@@ -104,7 +115,6 @@ class TrainerView(ctk.CTkFrame):
     def on_canvas_click(self, event):
         if not self.game_running: return
 
-        # Pierwsze kliknięcie rozpoczyna grę
         if not self.first_click_done:
             self.first_click_done = True
             self.game_canvas.delete("message")
@@ -113,24 +123,20 @@ class TrainerView(ctk.CTkFrame):
             self.spawn_target()
             return
 
-        # *** NOWA, POPRAWNA METODA SPRAWDZANIA KLIKNIĘCIA ***
-        # Sprawdź, jaki element jest pod kursorem
         item_id = self.game_canvas.find_withtag("current")
-        if not item_id: return # Kliknięto w puste pole
+        if not item_id: return
 
-        # Sprawdź, czy kliknięty element ma tag "target"
         item_tags = self.game_canvas.gettags(item_id[0])
         if "target" not in item_tags:
-            return # Kliknięto w coś innego
+            return
 
-        # Jeśli dotarliśmy tutaj, cel został trafiony
         self.hits += 1
         
         if self.game_mode == "Reaction":
             reaction_time = time.time() - self.start_time
             self.reaction_times.append(reaction_time)
             self.update_stats(last_reaction=reaction_time)
-        else: # Speed mode
+        else:
             self.update_stats()
 
         self.game_canvas.delete("target")
