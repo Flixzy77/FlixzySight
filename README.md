@@ -105,10 +105,13 @@
 
 ### [✓] Profile System: Ability to save multiple settings and presets under different user profiles.
 
+### [W.I.P] Pixel Editor
+
 # License
 
 # This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
 # See the LICENSE file for more details.
+
 
 
