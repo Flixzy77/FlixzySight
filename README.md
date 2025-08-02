@@ -95,19 +95,20 @@
 
     Toggling: Press F8 at any time to show or hide the crosshair overlay.
 
-# Future Development
+# Future Development (Roadmap)
 
 ### The following features are planned for future releases:
 
-### [ ] Aim Trainer Module: Implementation of various training modes (Reaction, Speed, Precision).
+### [✓] Aim Trainer Module: Implementation of various training modes (Reaction, Speed, Precision).
 
-### [ ] Advanced Settings: A dedicated UI for remapping the global hotkey and managing application startup behavior.
+### [✓] Advanced Settings: A dedicated UI for remapping the global hotkey and managing application startup behavior.
 
-### [ ] Profile System: Ability to save multiple settings and presets under different user profiles.
+### [✓] Profile System: Ability to save multiple settings and presets under different user profiles.
 
 # License
 
 # This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
 # See the LICENSE file for more details.
+
 
