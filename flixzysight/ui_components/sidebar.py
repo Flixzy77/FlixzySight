@@ -2,19 +2,19 @@ import customtkinter as ctk
 
 class Sidebar(ctk.CTkFrame):
     def __init__(self, parent, view_switcher):
-        super().__init__(parent, corner_radius=0)
+        super().__init__(parent, corner_radius=0, fg_color="#212121")
         self.grid_rowconfigure(7, weight=1)
 
         self.logo_label = ctk.CTkLabel(self, text="FlixzySight", font=ctk.CTkFont(size=20, weight="bold"))
-        self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
+        self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 20))
 
         buttons_info = [
-            ("editor", "🎨 Edytor"),
-            ("presets", "📁 Presety"),
-            ("trainer", "🧠 Trening"),
-            ("overlay", "🎯 Nakładka"),
-            ("settings", "⚙️ Ustawienia"),
-            ("changelog", "🕘 Zmiany")
+            ("editor", "🎨 Editor"),
+            ("presets", "📁 Presets"),
+            ("trainer", "🧠 Aim Trainer"),
+            ("overlay", "🎯 Overlay"),
+            ("settings", "⚙️ Settings"),
+            ("changelog", "🕘 Changelog")
         ]
 
         self.buttons = {}
@@ -23,7 +23,11 @@ class Sidebar(ctk.CTkFrame):
                 self,
                 text=text,
                 command=lambda n=name: view_switcher(n),
-                anchor="w"
+                anchor="w",
+                corner_radius=8,
+                fg_color="transparent",
+                hover_color="#2b2b2b",
+                text_color_disabled="gray"
             )
             button.grid(row=i + 1, column=0, padx=10, pady=5, sticky="ew")
             self.buttons[name] = button

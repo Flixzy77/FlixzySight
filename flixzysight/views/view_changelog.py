@@ -1,6 +1,12 @@
 import customtkinter as ctk
 
 CHANGELOG_TEXT = """
+v1.2 - The Polish & Settings Update (August 2, 2025)
+- Implemented the 'Settings' tab with theme and hotkey customization.
+- Complete UI overhaul for a more modern and consistent look.
+- Added custom styling for sliders, buttons, and frames.
+- Improved layout and spacing across all views.
+
 v1.1.2 - Trainer Bug Fix (August 2, 2025)
 - Fixed a critical bug where target clicks were not registering correctly.
 - Restored the intuitive "click to start" flow.

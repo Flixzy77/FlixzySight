@@ -16,6 +16,7 @@ class App(ctk.CTk):
         self.title("🎯 FlixzySight – Crosshair Overlay & Aim Trainer")
         self.geometry("900x650")
         self.minsize(800, 600)
+        
         ctk.set_appearance_mode("Dark")
 
         self.grid_rowconfigure(0, weight=1)
@@ -23,47 +24,52 @@ class App(ctk.CTk):
 
         self.overlay_window = CrosshairOverlay(self)
         
-        self.hotkey_manager = HotkeyManager("119", self.toggle_overlay_visibility) # 119 to kod dla F8
+        self.hotkey_manager = HotkeyManager("119", self.toggle_overlay_visibility)
         self.hotkey_manager.start()
 
         self.views = {}
         self.sidebar = Sidebar(self, self.switch_view)
         self.sidebar.grid(row=0, column=0, sticky="nsw")
 
-        # --- POPRAWIONA KOLEJNOŚĆ INICJALIZACJI ---
-        # 1. Stwórz kluczowe widoki, od których zależą inne
+        # --- Inicjalizacja widoków (POPRAWIONA LOGIKA) ---
+        views_to_create = {
+            "editor": EditorView,
+            "presets": PresetsView,
+            "trainer": TrainerView,
+            "changelog": ChangelogView,
+        }
+
+        # Stwórz standardowe widoki
+        for name, ViewClass in views_to_create.items():
+            view = ViewClass(self)
+            self.views[name] = view
+
+        # Stwórz widoki wymagające specjalnych argumentów
         overlay_view = OverlayView(self, self.overlay_window)
         self.views["overlay"] = overlay_view
         
-        editor_view = EditorView(self)
-        self.views["editor"] = editor_view
-        
-        # 2. Stwórz pozostałe widoki
-        for ViewClass in (PresetsView, TrainerView, SettingsView, ChangelogView):
-            name = ViewClass.__name__.replace("View", "").lower()
-            view = ViewClass(self) 
-            self.views[name] = view
+        settings_view = SettingsView(self, self.hotkey_manager)
+        self.views["settings"] = settings_view
 
-        # 3. Umieść wszystkie widoki w siatce (grid)
+        # Umieszczenie wszystkich widoków w siatce
         for view in self.views.values():
             view.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
         
-        # 4. Wyświetl domyślny widok
-        self.switch_view("editor") # Zmieniamy domyślny widok na edytor
+        self.switch_view("editor")
         
-        # 5. Załaduj domyślny preset przy starcie
-        self.views["presets"].load_default_preset()
+        self.after(100, self.views["presets"].load_default_preset)
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     def toggle_overlay_visibility(self):
         self.overlay_window.toggle_visibility()
-        self.views["overlay"].update_switch_state()
+        if "overlay" in self.views:
+             self.views["overlay"].update_switch_state()
 
     def switch_view(self, view_name):
         view = self.views.get(view_name)
         if view:
-            if view_name == 'presets': # Odśwież presety przy każdym przejściu
+            if view_name == 'presets':
                 view.refresh_presets()
             view.tkraise()
 
