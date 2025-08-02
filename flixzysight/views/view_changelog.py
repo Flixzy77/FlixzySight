@@ -1,6 +1,12 @@
 import customtkinter as ctk
 
 CHANGELOG_TEXT = """
+v1.1 - The Aim Trainer Update (August 2, 2025)
+- Added the first version of the Aim Trainer module.
+- Implemented "Reaction" mode: click the target as fast as you can.
+- Added average reaction time tracking.
+- Minor UI adjustments.
+
 v1.0 - Early Access (August 2, 2025)
 - Parametric editor with live preview implemented.
 - JSON-based preset system for saving and loading.
