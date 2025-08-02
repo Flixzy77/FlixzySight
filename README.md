@@ -101,7 +101,7 @@
 
 ### [ ] Aim Trainer Module: Implementation of various training modes (Reaction, Speed, Precision).
 
-###[ ] Advanced Settings: A dedicated UI for remapping the global hotkey and managing application startup behavior.
+### [ ] Advanced Settings: A dedicated UI for remapping the global hotkey and managing application startup behavior.
 
 ### [ ] Profile System: Ability to save multiple settings and presets under different user profiles.
 
@@ -110,3 +110,4 @@
 # This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
 
 # See the LICENSE file for more details.
+
